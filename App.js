@@ -1,10 +1,17 @@
 import { ScrollView, StyleSheet, Text, View, StatusBar } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Menu } from 'lucide-react-native';
-import { colors } from './assets/theme';
+import { colors, fontType } from './assets/theme';
 import ListBlog from './src/components/ListBlog';
+import { useFonts } from 'expo-font';
 
 export default function App() {
+  const [loaded] = useFonts(fontType);
+
+  if (!loaded) {
+    return null;
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor={colors.white()} />

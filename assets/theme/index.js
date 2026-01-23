@@ -1,2 +1,3 @@
 import colors from "./colors";
-export { colors } 
+import fontType from "./fonts";
+export { colors, fontType } 
