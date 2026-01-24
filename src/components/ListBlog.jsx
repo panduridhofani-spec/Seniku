@@ -1,13 +1,6 @@
-import {
-  ScrollView,
-  View,
-  StyleSheet,
-  Text,
-  ImageBackground,
-  Image,
-} from "react-native";
+import { ScrollView, View, StyleSheet, Text,ImageBackground,Image,} from "react-native";
 import { colors } from "../../assets/theme";
-import { ReceiptText, Clock, MessageCircle } from "lucide-react-native";
+import { ReceiptText, Clock, MessageCircle,Bookmark } from "lucide-react-native";
 export default function ListBlog({styles}) {
   return (
     <ScrollView>
@@ -35,7 +28,7 @@ export default function ListBlog({styles}) {
                 </View>
                 <View>
                   <View style={itemHorizontal.cardIcon}>
-                    <ReceiptText
+                    <Bookmark
                       color={colors.white()}
                       variant="Linear"
                       size={20}
@@ -63,7 +56,7 @@ export default function ListBlog({styles}) {
                 </View>
                 <View>
                   <View style={itemHorizontal.cardIcon}>
-                    <ReceiptText
+                    <Bookmark
                       color={colors.white()}
                       variant="Linear"
                       size={20}
@@ -91,7 +84,7 @@ export default function ListBlog({styles}) {
                 </View>
                 <View>
                   <View style={itemHorizontal.cardIcon}>
-                    <ReceiptText
+                    <Bookmark
                       color={colors.white()}
                       variant="Linear"
                       size={20}
@@ -119,7 +112,7 @@ export default function ListBlog({styles}) {
                 </View>
                 <View>
                   <View style={itemHorizontal.cardIcon}>
-                    <ReceiptText
+                    <Bookmark
                       color={colors.white()}
                       variant="Linear"
                       size={20}
@@ -147,7 +140,7 @@ export default function ListBlog({styles}) {
                 </View>
                 <View>
                   <View style={itemHorizontal.cardIcon}>
-                    <ReceiptText
+                    <Bookmark
                       color={colors.white()}
                       variant="Linear"
                       size={20}
