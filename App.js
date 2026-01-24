@@ -43,7 +43,7 @@ export default function App() {
           </View>
         </ScrollView>
       </View>
-      <ListBlog styles={styles.listBlog} />
+      <ListBlog styles={styles} />
     </SafeAreaView>
   );
 }
