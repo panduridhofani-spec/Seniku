@@ -1,9 +1,9 @@
-import { ScrollView, StyleSheet, Text, View, StatusBar } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Menu } from 'lucide-react-native';
-import { colors, fontType } from './assets/theme';
-import ListBlog from './src/components/ListBlog';
-import { useFonts } from 'expo-font';
+import { ScrollView, StyleSheet, Text, View, StatusBar } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { Bell } from "lucide-react-native";
+import { colors, fontType } from "./assets/theme";
+import ListBlog from "./src/components/ListBlog";
+import { useFonts } from "expo-font";
 
 export default function App() {
   const [loaded] = useFonts(fontType);
@@ -17,7 +17,7 @@ export default function App() {
       <StatusBar barStyle="dark-content" backgroundColor={colors.white()} />
       <View style={styles.header}>
         <Text style={styles.title}>WOCO.</Text>
-        <Menu color={colors.black()} variant="Linear" size={24} />
+        <Bell color={colors.black()} size={24} />
       </View>
       <View style={styles.listCategory}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
@@ -56,9 +56,9 @@ const styles = StyleSheet.create({
   },
   header: {
     paddingHorizontal: 24,
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    alignItems: 'center',
+    justifyContent: "space-between",
+    flexDirection: "row",
+    alignItems: "center",
     height: 52,
     elevation: 8,
     paddingTop: 8,
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    fontFamily: 'Pjs-ExtraBold',
+    fontFamily: "Pjs-ExtraBold",
     color: colors.black(),
   },
   listCategory: {
@@ -84,12 +84,12 @@ const category = StyleSheet.create({
     paddingHorizontal: 14,
     paddingVertical: 10,
     borderRadius: 25,
-    alignItems: 'center',
+    alignItems: "center",
     backgroundColor: colors.grey(0.08),
-    marginHorizontal: 5
+    marginHorizontal: 5,
   },
   title: {
-    fontFamily: 'Pjs-SemiBold',
+    fontFamily: "Pjs-SemiBold",
     fontSize: 14,
     lineHeight: 18,
     color: colors.grey(),
