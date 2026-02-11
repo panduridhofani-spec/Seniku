@@ -60,7 +60,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     height: 52,
-    elevation: 8,
     paddingTop: 8,
     paddingBottom: 4,
     backgroundColor: colors.white(),
