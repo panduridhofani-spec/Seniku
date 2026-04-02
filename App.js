@@ -2,7 +2,7 @@ import { ScrollView, StyleSheet, Text, View, StatusBar } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Bell } from "lucide-react-native";
 import { colors, fontType } from "./assets/theme";
-import ListBlog from "./src/components/ListBlog";
+import ListSeni from "./src/components/ListSeni";
 import { useFonts } from "expo-font";
 
 export default function App() {
@@ -16,34 +16,31 @@ export default function App() {
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor={colors.white()} />
       <View style={styles.header}>
-        <Text style={styles.title}>WOCO.</Text>
+        <Text style={styles.title}>Seniku</Text>
         <Bell color={colors.black()} size={24} />
       </View>
       <View style={styles.listCategory}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           <View style={{ ...category.item, marginLeft: 24 }}>
             <Text style={{ ...category.title, color: colors.blue() }}>
-              Popular
+              Tari
             </Text>
           </View>
           <View style={category.item}>
-            <Text style={category.title}>Latest</Text>
+            <Text style={category.title}>Musik</Text>
           </View>
           <View style={category.item}>
-            <Text style={category.title}>Technology</Text>
+            <Text style={category.title}>Teater</Text>
           </View>
           <View style={category.item}>
-            <Text style={category.title}>Fashion</Text>
-          </View>
-          <View style={category.item}>
-            <Text style={category.title}>Health</Text>
+            <Text style={category.title}>Seni Rupa</Text>
           </View>
           <View style={{ ...category.item, marginRight: 24 }}>
-            <Text style={category.title}>Lifestyle</Text>
+            <Text style={category.title}>Tradisional</Text>
           </View>
         </ScrollView>
       </View>
-      <ListBlog styles={styles} />
+      <ListSeni styles={styles} />
     </SafeAreaView>
   );
 }
@@ -72,7 +69,7 @@ const styles = StyleSheet.create({
   listCategory: {
     paddingVertical: 10,
   },
-  listBlog: {
+  ListSeni: {
     paddingVertical: 10,
     gap: 10,
   },
