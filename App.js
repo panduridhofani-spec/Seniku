@@ -1,45 +1,75 @@
-import { ScrollView, StyleSheet, Text, View, StatusBar } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  StatusBar,
+  TouchableOpacity,
+  FlatList,
+} from "react-native";
+import { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Bell } from "lucide-react-native";
 import { colors, fontType } from "./assets/theme";
 import ListSeni from "./src/components/ListSeni";
 import { useFonts } from "expo-font";
+import { CategoryList } from "./src/data/categories";
+
+// 🔹 COMPONENT ITEM CATEGORY
+const ItemCategory = ({ item, onPress, color }) => {
+  return (
+    <TouchableOpacity onPress={onPress} style={category.item}>
+      <Text style={{ ...category.title, color }}>{item.categoryName}</Text>
+    </TouchableOpacity>
+  );
+};
+
+// 🔹 COMPONENT LIST CATEGORY (PAKAI STATE)
+const FlatListCategory = () => {
+  const [selected, setSelected] = useState(1);
+
+  return (
+    <FlatList
+      data={CategoryList}
+      horizontal
+      keyExtractor={(item) => item.id.toString()}
+      renderItem={({ item }) => {
+        const color = item.id === selected ? colors.blue() : colors.grey();
+
+        return (
+          <ItemCategory
+            item={item}
+            onPress={() => setSelected(item.id)}
+            color={color}
+          />
+        );
+      }}
+      contentContainerStyle={{ paddingHorizontal: 24 }}
+      showsHorizontalScrollIndicator={false}
+    />
+  );
+};
 
 export default function App() {
   const [loaded] = useFonts(fontType);
 
-  if (!loaded) {
-    return null;
-  }
+  if (!loaded) return null;
 
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor={colors.white()} />
+
+      {/* HEADER */}
       <View style={styles.header}>
         <Text style={styles.title}>Seniku</Text>
         <Bell color={colors.black()} size={24} />
       </View>
+
+      {/* CATEGORY */}
       <View style={styles.listCategory}>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          <View style={{ ...category.item, marginLeft: 24 }}>
-            <Text style={{ ...category.title, color: colors.blue() }}>
-              Tari
-            </Text>
-          </View>
-          <View style={category.item}>
-            <Text style={category.title}>Musik</Text>
-          </View>
-          <View style={category.item}>
-            <Text style={category.title}>Teater</Text>
-          </View>
-          <View style={category.item}>
-            <Text style={category.title}>Seni Rupa</Text>
-          </View>
-          <View style={{ ...category.item, marginRight: 24 }}>
-            <Text style={category.title}>Tradisional</Text>
-          </View>
-        </ScrollView>
+        <FlatListCategory />
       </View>
+
+      {/* LIST SENI */}
       <ListSeni styles={styles} />
     </SafeAreaView>
   );
@@ -49,7 +79,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.white(),
-    shadowColor: colors.white(),
   },
   header: {
     paddingHorizontal: 24,
@@ -58,8 +87,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     height: 52,
     paddingTop: 8,
-    paddingBottom: 4,
-    backgroundColor: colors.white(),
   },
   title: {
     fontSize: 20,
@@ -69,10 +96,6 @@ const styles = StyleSheet.create({
   listCategory: {
     paddingVertical: 10,
   },
-  ListSeni: {
-    paddingVertical: 10,
-    gap: 10,
-  },
 });
 
 const category = StyleSheet.create({
@@ -80,14 +103,12 @@ const category = StyleSheet.create({
     paddingHorizontal: 14,
     paddingVertical: 10,
     borderRadius: 25,
-    alignItems: "center",
     backgroundColor: colors.grey(0.08),
     marginHorizontal: 5,
   },
   title: {
     fontFamily: "Pjs-SemiBold",
     fontSize: 14,
-    lineHeight: 18,
     color: colors.grey(),
   },
 });
