@@ -7,10 +7,16 @@ import {
 } from "react-native";
 import { Bookmark } from "lucide-react-native";
 import { colors } from "../../assets/theme";
+import { useNavigation } from "@react-navigation/native";
 
 export default function ItemHorizontal({ item, isBookmarked, onPress }) {
+  const navigation = useNavigation();
   return (
-    <View style={styles.cardContainer}>
+    <TouchableOpacity
+  style={styles.cardContainer}
+  onPress={() => navigation.navigate("DetailSeni", { id: item.id })}
+  activeOpacity={0.9}
+>
       <ImageBackground
         source={item.image}
         style={styles.cardImage}
@@ -41,7 +47,7 @@ export default function ItemHorizontal({ item, isBookmarked, onPress }) {
           </TouchableOpacity>
         </View>
       </ImageBackground>
-    </View>
+    </TouchableOpacity>
   );
 }
 
