@@ -4,8 +4,12 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { SeniList } from "../data/seni";
 import ItemSmall from "../components/ItemSmall";
 import { colors } from "../../assets/theme";
+import { useNavigation } from "@react-navigation/native";
+import { Pressable } from "react-native";
+import { Search } from "lucide-react-native";
 
 const Discover = () => {
+  const navigation = useNavigation();
   const scrollY = useRef(new Animated.Value(0)).current;
   const diffClampY = Animated.diffClamp(scrollY, 0, 100);
 
@@ -26,6 +30,15 @@ const Discover = () => {
       >
         <Text style={styles.title}>Jelajahi</Text>
         <Text style={styles.subtitle}>Seni Nusantara</Text>
+
+        <Pressable
+          style={styles.searchBar}
+          onPress={() => navigation.navigate("SearchPage")}
+        >
+          <Search size={18} color="#999" />
+
+          <Text style={styles.searchPlaceholder}>Cari seni nusantara...</Text>
+        </Pressable>
       </Animated.View>
 
       <Animated.FlatList
@@ -81,5 +94,38 @@ const styles = StyleSheet.create({
   listContent: {
     paddingVertical: 10,
     paddingBottom: 40,
+  },
+
+  searchBar: {
+    marginTop: 20,
+
+    flexDirection: "row",
+    alignItems: "center",
+
+    backgroundColor: "#FFFFFF",
+
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+
+    borderRadius: 18,
+
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+
+    shadowOpacity: 0.05,
+    shadowRadius: 8,
+
+    elevation: 3,
+  },
+
+  searchPlaceholder: {
+    marginLeft: 10,
+
+    color: "#999",
+
+    fontFamily: "Pjs-Regular",
   },
 });

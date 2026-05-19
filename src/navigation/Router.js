@@ -1,6 +1,8 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import Search from "../screens/Search";
+import AddSeniForm from "../screens/AddSeniForm";
 
 import Home from "../screens/Home";
 import Discover from "../screens/Discover";
@@ -8,7 +10,12 @@ import Bookmark from "../screens/Bookmark";
 import Profile from "../screens/Profile";
 import DetailSeni from "../screens/DetailSeni"; // 🔥 kita ganti nama
 
-import { Home as HomeIcon, Compass, Bookmark as BookmarkIcon, User } from "lucide-react-native";
+import {
+  Home as HomeIcon,
+  Compass,
+  Bookmark as BookmarkIcon,
+  User,
+} from "lucide-react-native";
 import { colors } from "../../assets/theme";
 
 const Tab = createBottomTabNavigator();
@@ -70,6 +77,17 @@ export default function Router() {
       <Stack.Screen
         name="DetailSeni"
         component={DetailSeni}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="SearchPage"
+        component={Search}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="AddSeni"
+        component={AddSeniForm}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
