@@ -1,23 +1,30 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { colors } from "../../assets/theme";
 import { useNavigation } from "@react-navigation/native";
+import { imageMap } from "../data/imageMap";
 
 export default function ItemSmall({ item }) {
   const navigation = useNavigation();
   return (
     <TouchableOpacity
       style={styles.card}
-      onPress={() => navigation.navigate("DetailSeni", { id: item.id })}
+      onPress={() =>
+        navigation.navigate("DetailSeni", {
+          id: String(item.id),
+        })
+      }
     >
-      <Image source={item.image} style={styles.img} />
+      <Image source={imageMap[item.imageKey]} style={styles.img} />
 
       <View style={styles.content}>
         <View style={styles.badge}>
           <Text style={styles.category}>{item.category}</Text>
         </View>
+
         <Text style={styles.title} numberOfLines={2}>
           {item.title}
         </Text>
+
         <Text style={styles.location} numberOfLines={1}>
           {item.location}
         </Text>

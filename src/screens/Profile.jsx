@@ -1,7 +1,23 @@
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  Pressable,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Settings, Bookmark, Heart, CircleHelp, LogOut, ChevronRight } from "lucide-react-native";
+import {
+  Settings,
+  Bookmark,
+  Heart,
+  CircleHelp,
+  LogOut,
+  ChevronRight,
+} from "lucide-react-native";
 import { colors } from "../../assets/theme";
+import { Plus } from "lucide-react-native";
+import { useNavigation } from "@react-navigation/native";
 
 // 🔹 KOMPONEN REUSABLE UNTUK MENU ITEM
 const MenuItem = ({ icon: Icon, title, isDanger }) => (
@@ -10,21 +26,26 @@ const MenuItem = ({ icon: Icon, title, isDanger }) => (
       <View style={[styles.iconWrapper, isDanger && styles.iconWrapperDanger]}>
         <Icon color={isDanger ? "#FF3B30" : colors.blue()} size={20} />
       </View>
-      <Text style={[styles.menuText, isDanger && styles.textDanger]}>{title}</Text>
+      <Text style={[styles.menuText, isDanger && styles.textDanger]}>
+        {title}
+      </Text>
     </View>
     {!isDanger && <ChevronRight color="#C7C7CC" size={20} />}
   </TouchableOpacity>
 );
 
 const Profile = () => {
+  const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Profil Saya</Text>
       </View>
 
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
-        
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.scrollContent}
+      >
         {/* KARTU PROFIL UTAMA */}
         <View style={styles.profileCard}>
           <View style={styles.avatarContainer}>
@@ -56,7 +77,7 @@ const Profile = () => {
 
         {/* BAGIAN MENU */}
         <Text style={styles.sectionTitle}>Aktivitas & Pengaturan</Text>
-        
+
         <View style={styles.menuContainer}>
           <MenuItem icon={Bookmark} title="Seni Favorit" />
           <View style={styles.menuDivider} />
@@ -71,8 +92,14 @@ const Profile = () => {
         <View style={[styles.menuContainer, { marginTop: 20 }]}>
           <MenuItem icon={LogOut} title="Keluar Akun" isDanger={true} />
         </View>
-
       </ScrollView>
+
+      <Pressable
+        style={styles.addButton}
+        onPress={() => navigation.navigate("AddSeniForm")}
+      >
+        <Plus color="#FFFFFF" size={22} />
+      </Pressable>
     </SafeAreaView>
   );
 };
@@ -155,7 +182,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontFamily: "Pjs-SemiBold",
   },
-  
+
   // STATISTIK STYLE
   statsRow: {
     flexDirection: "row",
@@ -247,11 +274,24 @@ const styles = StyleSheet.create({
     marginLeft: 70, // Sejajar dengan teks
     marginRight: 20,
   },
+  addButton: {
+    backgroundColor: colors.blue(),
+
+    width: 60,
+    height: 60,
+
+    borderRadius: 30,
+
+    justifyContent: "center",
+    alignItems: "center",
+
+    position: "absolute",
+    bottom: 30,
+    right: 24,
+
+    elevation: 5,
+  },
 });
-
-
-
-
 
 // import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 // import { SafeAreaView } from "react-native-safe-area-context";
@@ -279,7 +319,7 @@ const styles = StyleSheet.create({
 //       </View>
 
 //       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
-        
+
 //         {/* BAGIAN PROFIL - Tanpa background card, menyatu dengan latar agar clean */}
 //         <View style={styles.profileSection}>
 //           <View style={styles.avatarContainer}>
@@ -307,7 +347,7 @@ const styles = StyleSheet.create({
 
 //         {/* BAGIAN MENU */}
 //         <Text style={styles.sectionTitle}>Pengaturan & Aktivitas</Text>
-        
+
 //         {/* Kontainer menu tanpa garis pembatas di dalamnya */}
 //         <View style={styles.menuCard}>
 //           <MenuItem icon={Bookmark} title="Seni Favorit" />
@@ -348,7 +388,7 @@ const styles = StyleSheet.create({
 //     fontWeight: "bold",
 //     color: "#111827",
 //   },
-  
+
 //   // PROFILE SECTION
 //   profileSection: {
 //     alignItems: "center",

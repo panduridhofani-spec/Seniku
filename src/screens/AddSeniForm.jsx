@@ -17,6 +17,10 @@ import { useNavigation } from "@react-navigation/native";
 
 import { colors } from "../../assets/theme";
 
+import axios from "axios";
+
+import { ActivityIndicator } from "react-native";
+
 export default function AddSeniForm() {
   const navigation = useNavigation();
 
@@ -25,7 +29,10 @@ export default function AddSeniForm() {
     location: "",
     category: "",
     description: "",
+    imageKey: "",
   });
+
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (key, value) => {
     setFormData({
@@ -34,11 +41,44 @@ export default function AddSeniForm() {
     });
   };
 
+  const handleUpload = async () => {
+    setLoading(true);
+
+    try {
+      await axios.post("https://6a0fd6fad2a985707035e504.mockapi.io/seni", {
+        title: formData.title,
+        location: formData.location,
+        category: formData.category,
+        description: formData.description,
+
+        image: "https://images.unsplash.com/photo-1518998053901-5348d3961a04",
+
+        createdAt: new Date(),
+      });
+
+      setLoading(false);
+
+      navigation.goBack();
+    } catch (error) {
+      console.log(error);
+
+      setLoading(false);
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       {/* HEADER */}
       <View style={styles.header}>
-        <Pressable onPress={() => navigation.goBack()}>
+        <Pressable
+          onPress={() => {
+            if (navigation.canGoBack()) {
+              navigation.goBack();
+            } else {
+              navigation.navigate("MainApp");
+            }
+          }}
+        >
           <ArrowLeft color={colors.black()} size={24} />
         </Pressable>
 
@@ -83,6 +123,21 @@ export default function AddSeniForm() {
           />
         </View>
 
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Image Key</Text>
+
+          <TextInput
+            placeholder="contoh: tari-saman"
+            value={formData.imageKey}
+            onChangeText={(text) => handleChange("imageKey", text)}
+            style={styles.input}
+          />
+
+          <Text style={styles.helper}>
+            Gunakan: tari-saman, tari-kecak, angklung, wayang-kulit, dll.
+          </Text>
+        </View>
+
         {/* DESKRIPSI */}
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Deskripsi</Text>
@@ -99,10 +154,15 @@ export default function AddSeniForm() {
 
       {/* BUTTON */}
       <View style={styles.bottomBar}>
-        <Pressable style={styles.button}>
+        <Pressable style={styles.button} onPress={handleUpload}>
           <Text style={styles.buttonText}>Simpan Seni</Text>
         </Pressable>
       </View>
+      {loading && (
+        <View style={styles.loadingOverlay}>
+          <ActivityIndicator size="large" color={colors.blue()} />
+        </View>
+      )}
     </SafeAreaView>
   );
 }
@@ -190,5 +250,25 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
     fontFamily: "Pjs-Bold",
     fontSize: 16,
+  },
+
+  loadingOverlay: {
+    position: "absolute",
+
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+
+    backgroundColor: "rgba(0,0,0,0.3)",
+
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  helper: {
+    fontSize: 12,
+    color: "#888",
+    marginTop: 6,
   },
 });

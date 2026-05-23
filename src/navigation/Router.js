@@ -69,6 +69,14 @@ export default function Router() {
   return (
     <Stack.Navigator>
       <Stack.Screen
+        name="AddSeniForm"
+        component={AddSeniForm}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
         name="MainApp"
         component={MainApp}
         options={{ headerShown: false }}

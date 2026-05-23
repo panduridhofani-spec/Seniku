@@ -1,29 +1,34 @@
-import { ArrowLeft, Bookmark, Heart, Share2 } from "lucide-react-native";
-import React, { useRef } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { colors } from "../../assets/theme";
-import { useRoute } from "@react-navigation/native";
-import { SeniList } from "../data/seni";
+import React, { useState, useEffect, useRef } from "react";
+
 import {
   View,
   Text,
-  ScrollView,
   StyleSheet,
   Image,
   Animated,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+
+import { SafeAreaView } from "react-native-safe-area-context";
+
+import { ArrowLeft, Bookmark, Heart, Share2 } from "lucide-react-native";
+
+import { useRoute, useNavigation } from "@react-navigation/native";
+
+import axios from "axios";
+
+import { colors } from "../../assets/theme";
+
+import { imageMap } from "../data/imageMap";
 
 export default function DetailSeni() {
   const route = useRoute();
   const { id } = route.params;
+  console.log(id);
+  const [selectedSeni, setSelectedSeni] = useState(null);
 
-  const selectedSeni = SeniList.find((item) => item.id === id);
-
-  const data = SeniList.find((item) => item.id === id);
-
-  if (!data) return null;
+  const [loading, setLoading] = useState(true);
 
   const navigation = useNavigation();
 
@@ -43,6 +48,49 @@ export default function DetailSeni() {
     extrapolate: "clamp",
   });
 
+  useEffect(() => {
+    getDetailSeni();
+  }, []);
+
+  const getDetailSeni = async () => {
+    try {
+      const response = await axios.get(
+        `https://6a0fd6fad2a985707035e504.mockapi.io/seni/${id}`,
+      );
+
+      setSelectedSeni(response.data);
+
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      await axios.delete(
+        `https://6a0fd6fad2a985707035e504.mockapi.io/seni/${id}`,
+      );
+
+      navigation.goBack();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  if (loading || !selectedSeni) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <ActivityIndicator size="large" color={colors.blue()} />
+      </View>
+    );
+  }
   return (
     <SafeAreaView style={styles.container}>
       <Animated.View
@@ -61,11 +109,11 @@ export default function DetailSeni() {
         </TouchableOpacity>
 
         <View style={styles.headerRight}>
-          <TouchableOpacity style={styles.headerButton}>
+          <TouchableOpacity style={styles.headerButton} onPress={handleDelete}>
             <Heart color="#FFFFFF" size={20} />
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.headerButton}>
+          <TouchableOpacity style={styles.headerButton} onPress={handleDelete}>
             <Bookmark color="#FFFFFF" size={20} />
           </TouchableOpacity>
         </View>
@@ -81,7 +129,10 @@ export default function DetailSeni() {
       >
         {/* IMAGE */}
         <View style={styles.imageContainer}>
-          <Image source={selectedSeni.image} style={styles.image} />
+          <Image
+            source={imageMap[selectedSeni.imageKey]}
+            style={styles.image}
+          />
 
           <View style={styles.overlay} />
 
@@ -101,7 +152,9 @@ export default function DetailSeni() {
           {/* STATS */}
           <View style={styles.statsContainer}>
             <View style={styles.statCard}>
-              <Text style={styles.statNumber}>{selectedSeni.popularity}</Text>
+              <Text style={styles.statNumber}>
+                {selectedSeni.popularity || "95%"}
+              </Text>
 
               <Text style={styles.statLabel}>Popularitas</Text>
             </View>
