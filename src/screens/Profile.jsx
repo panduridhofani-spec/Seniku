@@ -18,6 +18,8 @@ import {
 import { colors } from "../../assets/theme";
 import { Plus } from "lucide-react-native";
 import { useNavigation } from "@react-navigation/native";
+import { supabase } from "../libs/supabase";
+import React, { useEffect, useState } from "react";
 
 // 🔹 KOMPONEN REUSABLE UNTUK MENU ITEM
 const MenuItem = ({ icon: Icon, title, isDanger }) => (
@@ -36,6 +38,47 @@ const MenuItem = ({ icon: Icon, title, isDanger }) => (
 
 const Profile = () => {
   const navigation = useNavigation();
+  const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getProfile();
+  }, []);
+
+  const getProfile = async () => {
+    try {
+      // ambil user login dari auth
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user) {
+        return;
+      }
+
+      console.log("AUTH USER:", user);
+
+      // simpan langsung user auth
+      setUserData({
+        full_name: user.user_metadata?.full_name || "Pengguna Seniku",
+
+        email: user.email,
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <Text style={{ textAlign: "center", marginTop: 50 }}>Loading...</Text>
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -49,11 +92,15 @@ const Profile = () => {
         {/* KARTU PROFIL UTAMA */}
         <View style={styles.profileCard}>
           <View style={styles.avatarContainer}>
-            <Text style={styles.avatarText}>A</Text>
+            <Text style={styles.avatarText}>
+              {userData?.full_name?.charAt(0).toUpperCase()}
+            </Text>
           </View>
-          <Text style={styles.name}>Agastya</Text>
+          <Text style={styles.name}>{userData?.full_name || "User"}</Text>
           <View style={styles.badge}>
-            <Text style={styles.desc}>Penggemar Seni Nusantara</Text>
+            <Text style={styles.desc}>
+              {userData?.email || "Penggemar Seni Nusantara"}
+            </Text>
           </View>
 
           {/* STATISTIK */}

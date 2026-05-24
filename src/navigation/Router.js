@@ -8,7 +8,9 @@ import Home from "../screens/Home";
 import Discover from "../screens/Discover";
 import Bookmark from "../screens/Bookmark";
 import Profile from "../screens/Profile";
-import DetailSeni from "../screens/DetailSeni"; // 🔥 kita ganti nama
+import DetailSeni from "../screens/DetailSeni";
+import Login from "../screens/auth/Login";
+import Register from "../screens/auth/Register";
 
 import {
   Home as HomeIcon,
@@ -67,15 +69,7 @@ function MainApp() {
 
 export default function Router() {
   return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="AddSeniForm"
-        component={AddSeniForm}
-        options={{
-          headerShown: false,
-        }}
-      />
-
+    <Stack.Navigator initialRouteName="Login">
       <Stack.Screen
         name="MainApp"
         component={MainApp}
@@ -98,6 +92,16 @@ export default function Router() {
         component={AddSeniForm}
         options={{ headerShown: false }}
       />
+
+      <Stack.Screen
+        name="AddSeniForm"
+        component={AddSeniForm}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen name="Login" component={Login} />
+
+      <Stack.Screen name="Register" component={Register} />
     </Stack.Navigator>
   );
 }

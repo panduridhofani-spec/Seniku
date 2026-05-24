@@ -4,10 +4,10 @@ import { View, Text, StyleSheet, Animated, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { Search } from "lucide-react-native";
-import axios from "axios";
 
 import ItemSmall from "../components/ItemSmall";
 import { colors } from "../../assets/theme";
+import { supabase } from "../libs/supabase";
 
 const Discover = () => {
   const [seniData, setSeniData] = useState([]);
@@ -23,22 +23,27 @@ const Discover = () => {
     outputRange: [0, -100],
     extrapolate: "clamp",
   });
-
-  // ===== LOGIC API =====
+  // ===== LOGIC SUPABASE =====
   useEffect(() => {
-    getSeni();
+    getDataSeni();
   }, []);
 
-  const getSeni = async () => {
+  const getDataSeni = async () => {
     try {
-      const response = await axios.get(
-        "https://6a0fd6fad2a985707035e504.mockapi.io/seni",
-      );
+      console.log("FETCHING DATA...");
 
-      setSeniData(response.data);
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
+      const { data, error } = await supabase.from("seni").select("*");
+
+      console.log("DATA:", data);
+      console.log("ERROR:", error);
+
+      if (error) {
+        return;
+      }
+
+      setSeniData(data);
+    } catch (err) {
+      console.log("CATCH ERROR:", err);
     }
   };
 
